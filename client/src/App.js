@@ -1,11 +1,16 @@
 import {React, useState, useEffect} from "react";
-import logo from './logo.svg';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import './App.css';
+import SearchBar from "./components/SearchBar";
 
 function App() {
   const [steamData, setSteamData] = useState([]);
 
-  //pulls steam app list from middleware, 
+  //pulls steam app list from middleware and is saves list for use in search component
   const makeAPICall = async () => {
     await fetch('http://localhost:8080/gamelist', {mode:'cors'})
     .then(response => {
@@ -13,7 +18,7 @@ function App() {
       return response.json();
     })
     .then(data => {
-      setSteamData(data.applist.apps);
+      setSteamData([...data.applist.apps]);
       console.log(steamData);
     })
     .catch(error => {
@@ -21,16 +26,25 @@ function App() {
     });
   }
   useEffect(() => {
-    makeAPICall();    
+    makeAPICall();
+    console.log("test") 
   }, []);
 
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        
-      </header>
-    </div>
+    <>
+    <Navbar bg="dark" variant="dark">
+        <Container>
+          <Navbar.Brand href="#home">GameDashboard</Navbar.Brand>
+          <Nav className="me-auto">
+            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="#sales">Sales</Nav.Link>
+            <Nav.Link href="#pricing">Something</Nav.Link>
+          </Nav>
+        </Container>
+    </Navbar>
+      <SearchBar games={steamData}/>
+    </>
   );
 }
 
