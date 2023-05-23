@@ -1,0 +1,11 @@
+.game-list {
+  display: flex;
+  width: 20%;
+  
+}
+
+.game-item {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
