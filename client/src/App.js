@@ -55,6 +55,8 @@ function App() {
   }
 
   useEffect(() => {
+    let isloading = false;
+
     callGameList();
     callGamePrice(252490);
     callPlayerCount(252490);
