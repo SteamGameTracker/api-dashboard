@@ -1,5 +1,6 @@
-import { React, useState, useRef } from "react";
+import { React, useState, useRef, useEffect } from "react";
 import { Form, Container, Dropdown, Row, Col } from "react-bootstrap";
+import FetchGameData from "../fetchData";
 import "./SearchBar.css";
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
 
@@ -21,18 +22,33 @@ function SearchBar(props) {
   const [selected, setSelected] = useState(0);
   const filteredGames = getFilteredGames(query, props.games);
   const ref = useRef(null);
+  const [gameSelected, setGameSelected] = useState({});
 
   //each time the input from user changes the query value is updated
   const onChange = (event) => {
     setQuery(event.target.value);
+    //console.log(props.games);
   }
 
   //When listed game is clicked on, appid will be set in selected and search bar will be reset
   const onSearch = (id) => {
     setSelected(id);
+    //setGameSelected(FetchGameData({id:id}));
+    //console.log(gameSelected);
     setQuery('');
     ref.current.value = '';
   };
+
+  useEffect(() => {
+    const getGameData = async () => {
+      const data = await FetchGameData({id:selected})
+      setGameSelected(data);
+    }
+    if (selected !== 0){
+      getGameData()
+      .catch(console.error);
+    }
+  }, [selected])
 
   return (
     <>
@@ -53,10 +69,9 @@ function SearchBar(props) {
                   className="game-item"
                   as="li"
                   key={value.appid}
-                  eventkey={value.appid}
                   onClick={() => onSearch(value.appid)}
                 >
-                  {value.name}
+                  {value.name} :{value.appid}
                 </DropdownItem>
               ))}
             </Dropdown.Menu>

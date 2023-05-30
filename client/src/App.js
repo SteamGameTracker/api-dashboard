@@ -19,35 +19,23 @@ function App() {
     })
     .then(data => {
       setSteamData([...data.applist.apps]);
-      //console.log(steamData);
+      console.log(steamData);
     })
     .catch(error => {
       console.error('request failed', error);
     });
   }
 
-  const callGamePrice = async (gameId) => {
-    await fetch(`http://localhost:8080/gamePrice/${gameId}`,{mode:'cors'})
+  const callTopTen = async () => {
+    await fetch('http://localhost:8080/topSellers', {mode:'cors'})
     .then(response => {
       console.log('Success', response);
       return response.json();
     })
     .then(data => {
-        console.log('Cost:', data[gameId].data.price_overview);
-    })
-    .catch(error => {
-      console.error('request failed', error);
-    });
-  }
-
-  const callPlayerCount = async (gameId) => {
-    await fetch(`http://localhost:8080/playerCount/${gameId}`,{mode:'cors'})
-    .then(response => {
-      console.log('Success', response);
-      return response.json();
-    })
-    .then(data => {
-        console.log('Current Player Count:', data.response.player_count);
+      const regex = /(?<=https:\/\/store\.steampowered\.com\/app\/).[0-9]+/gm;
+      const array = data.match(regex);
+      console.log('top 50 sellers:' , data);
     })
     .catch(error => {
       console.error('request failed', error);
@@ -55,11 +43,9 @@ function App() {
   }
 
   useEffect(() => {
-    let isloading = false;
-
     callGameList();
-    callGamePrice(252490);
-    callPlayerCount(252490);
+    callTopTen();
+
   }, []);
 
   return (

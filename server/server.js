@@ -38,7 +38,34 @@ app.get('/gamePrice/:id', (req, res) => {
 })
 
 app.get('/playerCount/:id', (req, res) => {
-    const gamesUrl = `https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?format=json&appid=${req.params['id']}`;
+    const gamesUrl = `https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/?key=7C864827037DFAFC7EB8B305590818D2&appid=${req.params['id']}`;
+    axios
+    .get(gamesUrl)
+    .then((response) => {
+        res.json(response.data);
+        console.log(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+    
+})
+
+app.get('/reviews/:id', (req, res) => {
+    const gamesUrl = `https://store.steampowered.com/appreviews/${req.params['id']}?json=1`;
+    axios
+    .get(gamesUrl)
+    .then((response) => {
+        res.json(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+    
+})
+
+app.get('/topSellers', (req, res) => {
+    const gamesUrl = `https://store.steampowered.com/search/?filter=topsellers`;
     axios
     .get(gamesUrl)
     .then((response) => {
