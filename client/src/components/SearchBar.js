@@ -6,8 +6,7 @@ import DropdownItem from "react-bootstrap/esm/DropdownItem";
 
 //used to filter out game titles based on the user's input
 const getFilteredGames = (query, games) => {
-  //if query value is blank, an empty array is give so that games are not shown if no
-  //search is being made
+  //if query value is blank, an empty array is give so that games are not shown if no search is being made
   if (!query) {
     return [];
   }
@@ -18,11 +17,11 @@ const getFilteredGames = (query, games) => {
 };
 
 function SearchBar(props) {
-  const [query, setQuery] = useState("");
-  const [selected, setSelected] = useState(0);
-  const filteredGames = getFilteredGames(query, props.games);
+  const [query, setQuery] = useState(""); //string used for searching game name
+  const [selected, setSelected] = useState(0); //game's appid when selected from searchbar dropdown
+  const filteredGames = getFilteredGames(query, props.games); //filtered list of games bases on query
   const ref = useRef(null);
-  const [gameSelected, setGameSelected] = useState({});
+  const [gameSelected, setGameSelected] = useState({}); //game data based on appid stored in selected
 
   //each time the input from user changes the query value is updated
   const onChange = (event) => {
@@ -33,12 +32,11 @@ function SearchBar(props) {
   //When listed game is clicked on, appid will be set in selected and search bar will be reset
   const onSearch = (id) => {
     setSelected(id);
-    //setGameSelected(FetchGameData({id:id}));
-    //console.log(gameSelected);
     setQuery('');
     ref.current.value = '';
   };
 
+  //when selected changes, this triggers the fetch of game data based on selected value
   useEffect(() => {
     const getGameData = async () => {
       const data = await FetchGameData({id:selected})
