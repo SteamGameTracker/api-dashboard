@@ -3,30 +3,48 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 import "./App.css";
 import SearchBar from "./components/SearchBar";
 
 function App() {
-  const [steamData, setSteamData] = useState([]);
+  const [steamData, setSteamData] = useState([]); //list of all games on steam
 
-  //pulls steam app list from middleware and is saves list for use in search component
-  const makeAPICall = async () => {
-    await fetch("http://localhost:8080/gamelist", { mode: "cors" })
-      .then((response) => {
-        console.log("Success", response);
-        return response.json();
-      })
-      .then((data) => {
-        setSteamData([...data.applist.apps]);
-        console.log(steamData);
-      })
-      .catch((error) => {
-        console.error("request failed", error);
-      });
-  };
+  //pulls steam app list 
+  const callGameList = async () => {
+    await fetch('http://localhost:8080/gamelist', {mode:'cors'})
+    .then(response => {
+      console.log('Success', response);
+      return response.json();
+    })
+    .then(data => {
+      setSteamData([...data.applist.apps]);
+      console.log(steamData);
+    })
+    .catch(error => {
+      console.error('request failed', error);
+    });
+  }
+  //pulls html of steam's top selling games, and filters out the appid's of the top 50
+  const callTopFifty = async () => {
+    await fetch('http://localhost:8080/topSellers', {mode:'cors'})
+    .then(response => {
+      console.log('Success', response);
+      return response.json();
+    })
+    .then(data => {
+      const regex = /(?<=https:\/\/store\.steampowered\.com\/app\/).[0-9]+/gm;
+      const array = data.match(regex);
+      console.log('top 50 sellers:' , data);
+    })
+    .catch(error => {
+      console.error('request failed', error);
+    });
+  }
+  //triggers once when app loads
   useEffect(() => {
-    makeAPICall();
+    callGameList();
+    callTopFifty();
+
   }, []);
 
   return (
