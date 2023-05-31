@@ -20,11 +20,8 @@ function App() {
     .then(data => {
       //if have more results, call again
       setSteamData(steamData => steamData.concat(data.response.apps));
-      console.log(data.response.have_more_results);
       if(data.response.have_more_results){
         callGameList(data.response.last_appid);
-        console.log(data.response.apps);
-        console.log(steamData);
       }
     })
     .catch(error => {
