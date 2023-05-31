@@ -5,25 +5,33 @@ import Navbar from "react-bootstrap/Navbar";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import SearchBar from "./components/SearchBar";
+import FetchGameData from "./fetchData";
 
 function App() {
   const [steamData, setSteamData] = useState([]); //list of all games on steam
 
   //pulls steam app list 
-  const callGameList = async () => {
-    await fetch('http://localhost:8080/gamelist', {mode:'cors'})
+  const callGameList = async (gameId) => {
+    await fetch(`http://localhost:8080/gamelist/${gameId}`, {mode:'cors'})
     .then(response => {
       console.log('Success', response);
       return response.json();
     })
     .then(data => {
-      setSteamData([...data.applist.apps]);
-      console.log(steamData);
+      //if have more results, call again
+      setSteamData(steamData => steamData.concat(data.response.apps));
+      console.log(data.response.have_more_results);
+      if(data.response.have_more_results){
+        callGameList(data.response.last_appid);
+        console.log(data.response.apps);
+        console.log(steamData);
+      }
     })
     .catch(error => {
       console.error('request failed', error);
     });
   }
+
   //pulls html of steam's top selling games, and filters out the appid's of the top 50
   const callTopFifty = async () => {
     await fetch('http://localhost:8080/topSellers', {mode:'cors'})
@@ -34,7 +42,7 @@ function App() {
     .then(data => {
       const regex = /(?<=https:\/\/store\.steampowered\.com\/app\/).[0-9]+/gm;
       const array = data.match(regex);
-      console.log('top 50 sellers:' , data);
+      //console.log('top 50 sellers:' , data);
     })
     .catch(error => {
       console.error('request failed', error);
@@ -42,7 +50,7 @@ function App() {
   }
   //triggers once when app loads
   useEffect(() => {
-    callGameList();
+    callGameList(-1);
     callTopFifty();
 
   }, []);

@@ -11,8 +11,34 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
     res.send('Welcome to the Steam Dashboard')
 })
-app.get('/gamelist', (req, res) => {
-    const gamesUrl = 'https://api.steampowered.com/ISteamApps/GetAppList/v2/';
+app.get('/gamelist/:id', (req, res) => {
+    const gamesUrl = 'https://api.steampowered.com/IStoreService/GetAppList/v1/?key=7C864827037DFAFC7EB8B305590818D2&include_games=true&max_results=50000';
+    const gamesUrl2 = `https://api.steampowered.com/IStoreService/GetAppList/v1/?key=7C864827037DFAFC7EB8B305590818D2&include_games=true&last_appid=${req.params['id']}&max_results=50000`
+    
+    if(req.params['id'] === -1){
+        axios
+        .get(gamesUrl)
+        .then((response) => {
+            res.json(response.data);
+        })
+        .catch((error) => {
+        console.error(error);
+        });
+    }
+    else {
+        axios
+        .get(gamesUrl2)
+        .then((response) => {
+            res.json(response.data);
+        })
+        .catch((error) => {
+        console.error(error);
+        });
+    } 
+})
+
+app.get('/gameDetails/:id', (req, res) => {
+    const gamesUrl = `https://store.steampowered.com/api/appdetails/?appids=${req.params['id']}`;
     axios
     .get(gamesUrl)
     .then((response) => {
@@ -23,6 +49,8 @@ app.get('/gamelist', (req, res) => {
     });
     
 })
+
+
 
 app.get('/gamePrice/:id', (req, res) => {
     const gamesUrl = `https://store.steampowered.com/api/appdetails?filters=price_overview&appids=${req.params['id']}&cc=us&l=en`;
@@ -43,7 +71,6 @@ app.get('/playerCount/:id', (req, res) => {
     .get(gamesUrl)
     .then((response) => {
         res.json(response.data);
-        console.log(response.data);
     })
     .catch((error) => {
       console.error(error);

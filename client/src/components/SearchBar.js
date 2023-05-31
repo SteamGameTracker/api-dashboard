@@ -26,7 +26,6 @@ function SearchBar(props) {
   //each time the input from user changes the query value is updated
   const onChange = (event) => {
     setQuery(event.target.value);
-    //console.log(props.games);
   }
 
   //When listed game is clicked on, appid will be set in selected and search bar will be reset
