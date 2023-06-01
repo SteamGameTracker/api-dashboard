@@ -9,7 +9,8 @@ import FetchGameData from "./fetchData";
 
 function App() {
   const [steamData, setSteamData] = useState([]); //list of all games on steam
-
+  const [topFifth, setTopFifth] = useState([]);
+  const [topFifthOnSale, setTopFifthOnSale] = useState([]);
   //pulls steam app list 
   const callGameList = async (gameId) => {
     await fetch(`http://localhost:8080/gamelist/${gameId}`, {mode:'cors'})
@@ -39,17 +40,36 @@ function App() {
     .then(data => {
       const regex = /(?<=https:\/\/store\.steampowered\.com\/app\/).[0-9]+/gm;
       const array = data.match(regex);
-      //console.log('top 50 sellers:' , data);
+      setTopFifth([...array]);
+      //console.log('top 50 sellers:' , topFifth);
     })
     .catch(error => {
       console.error('request failed', error);
     });
   }
+
+  const callTopFiftyOnSale = async () => {
+    await fetch('http://localhost:8080/topSellersOnSale', {mode:'cors'})
+    .then(response => {
+      console.log('Success', response);
+      return response.json();
+    })
+    .then(data => {
+      const regex = /(?<=https:\/\/store\.steampowered\.com\/app\/).[0-9]+/gm;
+      const array = data.match(regex);
+      setTopFifthOnSale([...array]);
+      //console.log('top 50 sellers on sale:' , array);
+    })
+    .catch(error => {
+      console.error('request failed', error);
+    });
+  }
+
   //triggers once when app loads
   useEffect(() => {
     callGameList(-1);
     callTopFifty();
-
+    callTopFiftyOnSale();
   }, []);
 
   return (

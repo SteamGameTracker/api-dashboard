@@ -11,10 +11,11 @@ app.use((req, res, next) => {
 app.get('/', (req, res) => {
     res.send('Welcome to the Steam Dashboard')
 })
+
 app.get('/gamelist/:id', (req, res) => {
     const gamesUrl = 'https://api.steampowered.com/IStoreService/GetAppList/v1/?key=7C864827037DFAFC7EB8B305590818D2&include_games=true&max_results=50000';
     const gamesUrl2 = `https://api.steampowered.com/IStoreService/GetAppList/v1/?key=7C864827037DFAFC7EB8B305590818D2&include_games=true&last_appid=${req.params['id']}&max_results=50000`
-    
+
     if(req.params['id'] === -1){
         axios
         .get(gamesUrl)
@@ -47,10 +48,7 @@ app.get('/gameDetails/:id', (req, res) => {
     .catch((error) => {
       console.error(error);
     });
-    
 })
-
-
 
 app.get('/gamePrice/:id', (req, res) => {
     const gamesUrl = `https://store.steampowered.com/api/appdetails?filters=price_overview&appids=${req.params['id']}&cc=us&l=en`;
@@ -62,7 +60,6 @@ app.get('/gamePrice/:id', (req, res) => {
     .catch((error) => {
       console.error(error);
     });
-    
 })
 
 app.get('/playerCount/:id', (req, res) => {
@@ -75,7 +72,6 @@ app.get('/playerCount/:id', (req, res) => {
     .catch((error) => {
       console.error(error);
     });
-    
 })
 
 app.get('/reviews/:id', (req, res) => {
@@ -86,9 +82,8 @@ app.get('/reviews/:id', (req, res) => {
         res.json(response.data);
     })
     .catch((error) => {
-      console.error(error);
-    });
-    
+        console.error(error);
+    }); 
 })
 
 app.get('/topSellers', (req, res) => {
@@ -101,8 +96,20 @@ app.get('/topSellers', (req, res) => {
     .catch((error) => {
       console.error(error);
     });
-    
 })
+
+app.get('/topSellersOnSale', (req, res) => {
+    const gamesUrl = `https://store.steampowered.com/search/?supportedlang=english&specials=1&filter=topsellers&ndl=1`;
+    axios
+    .get(gamesUrl)
+    .then((response) => {
+        res.json(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+})
+
 
 app.listen(port, () => {
     console.log(`listening on port ${port}`)
