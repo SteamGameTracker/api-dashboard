@@ -79,13 +79,12 @@ function SearchBar(props) {
         </Row>
         <Row>
           <Col>
-          <iframe 
-        src={`https://steamdb.info/embed/?appid=${730}`} 
-        height={389}
-        width={600}
-        loading={'lazy'}
-        title={`Chart for ${730}showing concurrent players`}>
-        </iframe>
+          <iframe
+            src={`https://steamdb.info/embed/?appid=${selected}`} 
+            height={389}
+            width={600}
+            loading={'lazy'}
+            title={`Chart for ${730}showing concurrent players`}/>
           </Col>
         </Row>
       </Container>
