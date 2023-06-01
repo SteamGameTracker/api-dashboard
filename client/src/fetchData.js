@@ -2,6 +2,7 @@ async function FetchGameData(props) {
   const data = {};
   const gameId = props.id;
 
+  //general information about the game, such as an about, dlc appid's, release date, supported platforms etc.
   const callGameDetails = await fetch(`http://localhost:8080/gameDetails/${gameId}`,{mode:'cors'})
     .then(response => response.json())
     .then(data => {

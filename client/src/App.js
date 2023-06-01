@@ -9,8 +9,8 @@ import FetchGameData from "./fetchData";
 
 function App() {
   const [steamData, setSteamData] = useState([]); //list of all games on steam
-  const [topFifth, setTopFifth] = useState([]);
-  const [topFifthOnSale, setTopFifthOnSale] = useState([]);
+  const [topFifth, setTopFifth] = useState([]); //top fifty sold games
+  const [topFifthOnSale, setTopFifthOnSale] = useState([]); //top fifty sold games on sale
   //pulls steam app list 
   const callGameList = async (gameId) => {
     await fetch(`http://localhost:8080/gamelist/${gameId}`, {mode:'cors'})
@@ -87,7 +87,7 @@ function App() {
       </Navbar>
       <SearchBar games={steamData} />
     </>
-  );
+  )
 }
 
 export default App;
