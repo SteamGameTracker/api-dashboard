@@ -77,6 +77,17 @@ function SearchBar(props) {
             <p>Call components here to show info based on this appid, {selected}</p>
           </Col>
         </Row>
+        <Row>
+          <Col>
+          <iframe 
+        src={`https://steamdb.info/embed/?appid=${730}`} 
+        height={389}
+        width={600}
+        loading={'lazy'}
+        title={`Chart for ${730}showing concurrent players`}>
+        </iframe>
+          </Col>
+        </Row>
       </Container>
     </>
   );

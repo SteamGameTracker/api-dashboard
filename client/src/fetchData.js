@@ -52,7 +52,7 @@ async function FetchGameData(props) {
   data.players = callPlayerCount;
   data.reviews = callGameReviews;
 
-  console.log('Game data', data);
+  //console.log('Game data', data);
 
   return data;
 }
