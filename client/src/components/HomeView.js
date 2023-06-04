@@ -6,7 +6,7 @@ export default function HomeView(props) {
   const [topFifty, setTopFifty] = useState([]);
   const [topSale, setTopSale]   = useState([]);
   const { games } = props;
-
+  console.log('test')
   useEffect(() => {
     async function getSales(url) {
       await fetch('http://localhost:8080/' + url, {mode:'cors'})
