@@ -19,6 +19,7 @@ const getFilteredGames = (query, games) => {
 function SearchBar(props) {
   const [query, setQuery] = useState(""); //string used for searching game name
   const [selected, setSelected] = useState(0); //game's appid when selected from searchbar dropdown
+  const { games } = props;
   const filteredGames = getFilteredGames(query, props.games); //filtered list of games bases on query
   const ref = useRef(null);
   const [gameSelected, setGameSelected] = useState({}); //game data based on appid stored in selected
@@ -74,7 +75,7 @@ function SearchBar(props) {
             </Dropdown.Menu>
           </Col>
           <Col className="card">
-            <p>Call components here to show info based on this appid, {selected}</p>
+            <p>Call components here to show info based on this appid, {gameSelected.players}</p>
           </Col>
         </Row>
         <Row>
