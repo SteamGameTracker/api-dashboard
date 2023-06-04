@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import FetchGameData from "../../fetchData";
 import { Card, Container, Image, Row, Col, Tab, Tabs } from "react-bootstrap";
+import Review from "./Review";
 
 export default function GameCard(props) {
   const [name, setName]               = useState("");
@@ -15,6 +16,7 @@ export default function GameCard(props) {
   const [metacritic, setMetacritic]   = useState({});
   const [about, setAbout]             = useState("");
   const [reviews, setReviews]         = useState({});
+  const [type, setType]               = useState(false);
 
   const { game } = props;
   
@@ -22,6 +24,7 @@ export default function GameCard(props) {
     async function getData(gameId) {
       await FetchGameData({id:gameId})
       .then((response) => {
+        console.log(response);
         setName(response.gameDetails.name);
         setThumb(response.gameDetails.header_image);
         setPlayerCount(response.players);
@@ -33,6 +36,12 @@ export default function GameCard(props) {
         setMetacritic(response.gameDetails.metacritic);
         setAbout(response.gameDetails.about);
         setReviews(response.reviews);
+        
+        if(response.gameDetails.type === "game")
+          setType(true);
+        else
+          setType(false);
+        console.log(type);
       });
     }
 
@@ -44,7 +53,7 @@ export default function GameCard(props) {
       <Container>
       <Row>
         <Col>
-          <p>{name}</p>
+          <h2>{name}</h2>
           <Tabs 
             defaultActiveKey={"details"}
             id="card-tabs"
@@ -52,21 +61,41 @@ export default function GameCard(props) {
           >
             <Tab eventKey="details" title="Details">
               <Image src={thumbnail} />
-              <p>{}</p>
+              <h3>Genres</h3>
+              {genres && genres.map((genre) => (
+                <p>{genre.description}</p>
+              ))}
+              <h3>Tags</h3>
+              {categories && categories.map((category) => (
+                <p>{category.description}</p>
+              ))}
             </Tab>
             <Tab eventKey="reviews" title="Reviews">
-              
+              <Review
+                key = {"review" + game} 
+                review_desc = {reviews.query_summary ?
+                               reviews.query_summary.review_score_desc :
+                               "N/A"
+                              }
+                top_reviews = {reviews.reviews ?
+                               reviews.reviews :
+                               ["N/A"]
+                              }
+              />
             </Tab>
           </Tabs>
-          
         </Col>
         <Col>
-        <iframe
-          src={`https://steamdb.info/embed/?appid=${game}`} 
-          height={389}
-          width={600}
-          loading={'lazy'}
-          title={`Chart for ${730}showing concurrent players`}/>
+          {type ? 
+            <iframe
+            src={`https://steamdb.info/embed/?appid=${game}`} 
+            height={389}
+            width={600}
+            loading={'lazy'}
+            title={`Chart for ${730}showing concurrent players`}
+            />
+          : <p>No chart data for DLC</p>
+          }
         </Col>
       </Row>
       </Container>
