@@ -6,7 +6,7 @@ async function FetchGameData(props) {
   const callGameDetails = await fetch(`http://localhost:8080/gameDetails/${gameId}`,{mode:'cors'})
     .then(response => response.json())
     .then(data => {
-      console.log('Game Details:', data[gameId].data);
+      //console.log('Game Details:', data[gameId].data);
       return data[gameId].data;
     })
     .catch(error => {
@@ -17,7 +17,7 @@ async function FetchGameData(props) {
   const callGamePrice = await fetch(`http://localhost:8080/gamePrice/${gameId}`,{mode:'cors'})
     .then(response => response.json())
     .then(data => {
-      console.log('Cost:', data[gameId].data.price_overview);
+      //console.log('Cost:', data[gameId].data.price_overview);
       return data[gameId].data.price_overview;
     })
     .catch(error => {
@@ -28,7 +28,7 @@ async function FetchGameData(props) {
   const callPlayerCount = await fetch(`http://localhost:8080/playerCount/${gameId}`,{mode:'cors'})
     .then(response => response.json())
     .then(data => {
-      console.log('Current Player Count:', data.response.player_count);
+      //console.log('Current Player Count:', data.response.player_count);
       return data.response.player_count;
     })
     .catch(error => {
@@ -39,7 +39,7 @@ async function FetchGameData(props) {
   const callGameReviews = await fetch(`http://localhost:8080/reviews/${gameId}`,{mode:'cors'})
     .then(response => response.json())
     .then(data => {
-      console.log('Game Reviews:', data);
+      //console.log('Game Reviews:', data);
       return data;
     })
     .catch(error => {
