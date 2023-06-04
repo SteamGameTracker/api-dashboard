@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import SearchBar from "./SearchBar";
-import HomeView from "../HomeView";
+import HomeView from "./HomeView";
 
 const Navigationbar = (props) => {
   const { games } = props;

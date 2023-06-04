@@ -9,3 +9,8 @@
   white-space: nowrap;
   overflow: hidden;
 }
+
+.search-row {
+  height: 60px;
+  margin-bottom: 10px;
+}

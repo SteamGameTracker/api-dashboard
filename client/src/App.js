@@ -2,10 +2,7 @@ import { React, useState, useEffect } from "react";
 import { Container, Row, Col} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import SearchBar from "./components/SearchBar";
 import Navigationbar from "./components/Navbar";
-import HomeView from "./components/HomeView";
-import FetchGameData from "./fetchData";
 
 function App() {
   const [steamData, setSteamData] = useState([]); //list of all games on steam
