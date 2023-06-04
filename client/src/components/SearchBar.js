@@ -74,19 +74,6 @@ function SearchBar(props) {
               ))}
             </Dropdown.Menu>
           </Col>
-          <Col className="card">
-            <p>Call components here to show info based on this appid, {gameSelected.players}</p>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-          <iframe
-            src={`https://steamdb.info/embed/?appid=${selected}`} 
-            height={389}
-            width={600}
-            loading={'lazy'}
-            title={`Chart for ${730}showing concurrent players`}/>
-          </Col>
         </Row>
       </Container>
     </>

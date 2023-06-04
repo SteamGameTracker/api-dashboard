@@ -8,13 +8,16 @@ const Navigationbar = (props) => {
   const { games } = props;
   return (
     <>
-      <Navbar bg="dark" variant="dark" sticky="top">
+      <Navbar bg="dark" variant="dark" sticky="top" expand="sm">
         <Container>
           <Navbar.Brand href="/">Steam Dashboard</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/search">Search</Nav.Link>
-          </Nav>
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse>
+            <Nav className="me-auto">
+              <Nav.Link href="/">Home</Nav.Link>
+              <Nav.Link href="/search">Search</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
         </Container>
       </Navbar>
       <BrowserRouter>
