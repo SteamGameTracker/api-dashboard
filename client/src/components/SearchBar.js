@@ -1,8 +1,8 @@
-import { React, useState, useRef, useEffect } from "react";
+import { React, useState, useRef } from "react";
 import { Form, Container, Dropdown, Row, Col } from "react-bootstrap";
-import FetchGameData from "../fetchData";
 import "./SearchBar.css";
 import DropdownItem from "react-bootstrap/esm/DropdownItem";
+import GameCard from './Home/GameCard';
 
 //used to filter out game titles based on the user's input
 const getFilteredGames = (query, games) => {
@@ -19,9 +19,9 @@ const getFilteredGames = (query, games) => {
 function SearchBar(props) {
   const [query, setQuery] = useState(""); //string used for searching game name
   const [selected, setSelected] = useState(0); //game's appid when selected from searchbar dropdown
-  const filteredGames = getFilteredGames(query, props.games); //filtered list of games bases on query
+  const { games } = props;
+  const filteredGames = getFilteredGames(query, games); //filtered list of games bases on query
   const ref = useRef(null);
-  const [gameSelected, setGameSelected] = useState({}); //game data based on appid stored in selected
 
   //each time the input from user changes the query value is updated
   const onChange = (event) => {
@@ -35,23 +35,11 @@ function SearchBar(props) {
     ref.current.value = '';
   };
 
-  //when selected changes, this triggers the fetch of game data based on selected value
-  useEffect(() => {
-    const getGameData = async () => {
-      const data = await FetchGameData({id:selected})
-      setGameSelected(data);
-    }
-    if (selected !== 0){
-      getGameData()
-      .catch(console.error);
-    }
-  }, [selected])
-
   return (
     <>
-      <Container className="m-0 p-2">
-        <Row>
-          <Col>
+      <Container className="mx-auto p-2">
+        <Row className="search-row justify-content-md-center">
+          <Col className="" md="3">
             <Dropdown.Menu className="game-list" show>
               <Form.Label hidden>Search</Form.Label>
               <Form.Control
@@ -73,19 +61,11 @@ function SearchBar(props) {
               ))}
             </Dropdown.Menu>
           </Col>
-          <Col className="card">
-            <p>Call components here to show info based on this appid, {selected}</p>
-          </Col>
         </Row>
         <Row>
-          <Col>
-          <iframe
-            src={`https://steamdb.info/embed/?appid=${selected}`} 
-            height={389}
-            width={600}
-            loading={'lazy'}
-            title={`Chart for ${730}showing concurrent players`}/>
-          </Col>
+          {selected !== 0 && <GameCard
+          key = {selected}
+          game = {selected}/>}
         </Row>
       </Container>
     </>
