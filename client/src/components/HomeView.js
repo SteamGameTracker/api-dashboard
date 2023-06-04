@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Tabs, Tab } from "react-bootstrap";
 import GameCard from "./Home/GameCard";
 
 export default function HomeView(props) {
@@ -40,11 +41,27 @@ export default function HomeView(props) {
 
   return (
     <div>
-      {topSale.map((game) => (
-      <GameCard
-      key = {game}
-      game={game}/>
-      ))}
+      <Tabs
+        defaultActiveKey={"gamesOnSale"}
+        id="top-sellers"
+        className="mb-3"
+        justify
+      >
+        <Tab eventKey="gamesOnSale" title="Top Games On Sale">
+          {topSale.map((game) => (
+            <GameCard
+            key = {game}
+            game = {game}/>
+          ))}
+        </Tab>
+        <Tab eventKey="topSellers" title="Top Selling Games">
+          {topFifty.map((game) => (
+            <GameCard
+            key = {game}
+            game = {game}/>
+          ))}
+        </Tab>
+      </Tabs>
     </div>
   );
 }

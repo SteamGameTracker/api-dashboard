@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import FetchGameData from "../../fetchData";
-import { Image } from "react-bootstrap";
+import { Card, Container, Image, Row, Col, Tab, Tabs } from "react-bootstrap";
 
 export default function GameCard(props) {
   const [name, setName]               = useState("");
@@ -22,8 +22,6 @@ export default function GameCard(props) {
     async function getData(gameId) {
       await FetchGameData({id:gameId})
       .then((response) => {
-        //console.log(response);
-
         setName(response.gameDetails.name);
         setThumb(response.gameDetails.header_image);
         setPlayerCount(response.players);
@@ -43,20 +41,35 @@ export default function GameCard(props) {
 
   return (
     <div>
-      <Image 
-        src = {thumbnail}
-      />
-      <p>{name}</p>
-      <p>{playerCount}</p>
-      <iframe
-            src={`https://steamdb.info/embed/?appid=${game}`} 
-            height={389}
-            width={600}
-            loading={'lazy'}
-            title={`Chart for ${730}showing concurrent players`}/>
+      <Container>
+      <Row>
+        <Col>
+          <p>{name}</p>
+          <Tabs 
+            defaultActiveKey={"details"}
+            id="card-tabs"
+            className="mb-3"
+          >
+            <Tab eventKey="details" title="Details">
+              <Image src={thumbnail} />
+              <p>{}</p>
+            </Tab>
+            <Tab eventKey="reviews" title="Reviews">
+              
+            </Tab>
+          </Tabs>
+          
+        </Col>
+        <Col>
+        <iframe
+          src={`https://steamdb.info/embed/?appid=${game}`} 
+          height={389}
+          width={600}
+          loading={'lazy'}
+          title={`Chart for ${730}showing concurrent players`}/>
+        </Col>
+      </Row>
+      </Container>
     </div>
-
   );
-  
-  //console.log(data);
 }
