@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import FetchGameData from "../../fetchData";
 import { Container, Image, Row, Col, Tab, Tabs } from "react-bootstrap";
 import Review from "./Review";
