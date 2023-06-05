@@ -54,13 +54,14 @@ export default function HomeView(props) {
             game = {game}/>
           ))}
         </Tab>
-        <Tab eventKey="topSellers" title="Top Selling Games">
+        <Tab eventKey="topSellers" title="Top Sellers">
           {topFifty.map((game) => (
             <GameCard
             key = {game}
             game = {game}/>
           ))}
         </Tab>
+        
       </Tabs>
     </div>
   );

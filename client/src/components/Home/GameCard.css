@@ -1,0 +1,54 @@
+.thumbnail {
+  max-width: 250px;
+  height: auto;
+}
+
+.reviewContainer {
+  height: 500px;
+  overflow-y: scroll;
+  color:white;
+  background-color: #1b2838;
+  padding: 5%;
+}
+
+.singleReview {
+  padding: 5%;
+  margin-bottom: 25px;
+  color:white;
+  background-color: #161920;
+}
+
+.aboutContainer {
+  height: 500px;
+  width: 640px;
+  overflow-y: scroll;
+  color:white;
+  background-color: #1b2838;
+  padding: 5%;
+}
+
+.detailsContainer {
+  height: 500px;
+  overflow-y: scroll;
+  color:white;
+  background-color: #1b2838;
+  padding: 5%;
+}
+
+.gameCard {
+  margin-bottom: 50px;
+  padding: 1%;
+  background-color: #1b2838;
+  color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.gameHeader {
+  background-color: #161920;
+  padding: 2%;
+}
+
+.playerChart {
+  margin-top: 50px;
+  color: white !important;
+}
