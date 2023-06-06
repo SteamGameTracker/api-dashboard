@@ -6,8 +6,27 @@ export default function HomeView(props) {
   const [topFifty, setTopFifty] = useState([]);
   const [topSale, setTopSale]   = useState([]);
   const { games } = props;
-  console.log('test')
   useEffect(() => {
+    const checkSales = async (url) => {
+      await fetch('http://localhost:8080/' + url, {mode:'cors'})
+      .then(response => response.json())
+      .then(data => {
+        const date = new Date();
+        console.log(data);
+        if(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}` > data.date){
+          getSales("topSellers");
+        }
+        else {
+          console.log("local");
+          setTopSale(data.applist);
+          
+       }
+      })
+      .catch(error => {
+        console.error('request failed', error);
+      });
+    }
+
     async function getSales(url) {
       await fetch('http://localhost:8080/' + url, {mode:'cors'})
         .then(response => response.json())
@@ -24,6 +43,7 @@ export default function HomeView(props) {
       .then(response => response.json())
       .then(data => {
         const date = new Date();
+        //console.log(data);
         if(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}` > data.date){
           getTop("topSellers");
         }
@@ -42,15 +62,15 @@ export default function HomeView(props) {
       await fetch('http://localhost:8080/' + url, {mode:'cors'})
         .then(response => response.json())
         .then(data => {
-          console.log(data);
+          //console.log(data);
           setTopFifty(data);
         })
         .catch(error => {
           console.error('request failed', error);
         });
     }
-    checkTop("topSellersJson")
-    getSales("topSellersOnSale");
+    checkTop("topSellersJson");
+    checkSales("topSellersOnSaleJson");
     //getTop("topSellers")
   }, []);
 
@@ -64,14 +84,14 @@ export default function HomeView(props) {
         justify
       >
         <Tab eventKey="gamesOnSale" title="Top Games On Sale">
-          {topSale.slice(0, 2).map((game) => (
+          {topSale.map((game) => (
             <GameCard
             key = {game}
             game = {game}/>
           ))}
         </Tab>
         <Tab eventKey="topSellers" title="Top Selling Games">
-          {topFifty.slice(0, 2).map((game) => (
+          {topFifty.map((game) => (
             <GameCard
             key = {game.appid}
             game = {game.appid}/>

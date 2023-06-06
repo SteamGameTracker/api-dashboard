@@ -92,7 +92,7 @@ app.get('/gameDetails/:id', (req, res) => {
     res.json(response.data);
   })
   .catch((error) => {
-    //console.error(error);
+    console.error(error);
   });
 })
 
@@ -104,7 +104,7 @@ app.get('/gamePrice/:id', (req, res) => {
     res.json(response.data);
   })
   .catch((error) => {
-    //console.error(error);
+    console.error(error);
   });
 })
 
@@ -116,7 +116,7 @@ app.get('/playerCount/:id', (req, res) => {
     res.json(response.data);
   })
   .catch((error) => {
-    //console.error(error);
+    console.error(error);
   });
 })
 
@@ -128,14 +128,13 @@ app.get('/reviews/:id', (req, res) => {
     res.json(response.data);
   })
   .catch((error) => {
-    //console.error(error);
+    console.error(error);
   }); 
 })
 
 app.get('/topSellersJson', (req, res) => {
   const jsonString = fs.readFileSync(path2);
-  const topData = JSON.parse(jsonString)
-  
+  const topData = JSON.parse(jsonString);
   res.json(topData);
 })
 
@@ -147,52 +146,36 @@ app.get('/topSellers', (req, res) => {
     const regex = /(?<=https:\/\/store\.steampowered\.com\/app\/).[0-9]+/gm;
     const array = response.data.match(regex);
     let objArray = [];
-    Promise.all(array.slice(0, 2).map(async (appid) => {
-      console.log('test', appid);
+    Promise.all(array.map(async (appid) => {
       const callGameDetails = `https://store.steampowered.com/api/appdetails/?appids=${appid}`;
-      axios
+      await axios
       .get(callGameDetails)
       .then(response => {
-        //console.log(response.data[appid].data);
-        //objArray.push(JSON.parse(JSON.stringify(response.data[appid].data)));
-        //console.log(response.data[element].data);
+        objArray.push(JSON.parse(JSON.stringify(response.data[appid].data)));
+        fs.writeFile(path2, JSON.stringify({
+          "date": `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
+          "applist": objArray
+        }, null, 2), (error) => {
+          if(error) {
+            console.log("An error has occured", error);
+            return;
+          }
+          console.log("Data written successfully to the file");
+        })
       })
       .catch((error) => {
-        //console.error(error);
+        console.error(error);
       });
     }))
-    .then((data) => {
-      console.log('test');
-      console.log(data);
-    })
-    //let objArray = [];
-    //const element = 730;
-    //array.forEach(element => {
-      
-      
-    //});
-      //console.log(objArray);
-    // fs.writeFile(path2, JSON.stringify({
-    //   "date": `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
-    //   "applist": objArray
-    // }, null, 2), (error) => {
-    //   if(error) {
-    //     console.log("An error has occured", error);
-    //     return;
-    //   }
-    //   console.log("Data written successfully to the file");
-    // })
-    // res.json(array);
   })
   .catch((error) => {
-    //console.error(error);
+    console.error(error);
   });
 })
 
 app.get('/topSellersOnSaleJson', (req, res) => {
   const jsonString = fs.readFileSync(path3);
-  const topSalesData = JSON.parse(jsonString)
-  
+  const topSalesData = JSON.parse(jsonString);
   res.json(topSalesData);
 })
 
@@ -203,11 +186,31 @@ app.get('/topSellersOnSale', (req, res) => {
   .then((response) => {
     const regex = /(?<=https:\/\/store\.steampowered\.com\/app\/).[0-9]+/gm;
     const array = response.data.match(regex);
-    
-    res.json(array);
+    let objArray = [];
+    Promise.all(array.map(async (appid) => {
+      const callGameDetails = `https://store.steampowered.com/api/appdetails/?appids=${appid}`;
+      await axios
+      .get(callGameDetails)
+      .then(response => {
+        objArray.push(JSON.parse(JSON.stringify(response.data[appid].data)));
+        fs.writeFile(path3, JSON.stringify({
+          "date": `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
+          "applist": objArray
+        }, null, 2), (error) => {
+          if(error) {
+            console.log("An error has occured", error);
+            return;
+          }
+          console.log("Data written successfully to the file");
+        })
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    }))
   })
   .catch((error) => {
-    //console.error(error);
+    console.error(error);
   });
 })
 
