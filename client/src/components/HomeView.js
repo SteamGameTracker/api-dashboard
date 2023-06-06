@@ -1,25 +1,26 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense  } from "react";
 import { Tabs, Tab } from "react-bootstrap";
-import GameCard from "./Home/GameCard";
+const GameCard = React.lazy(() => import("./Home/GameCard"));
 
 export default function HomeView(props) {
   const [topFifty, setTopFifty] = useState([]);
   const [topSale, setTopSale]   = useState([]);
   const { games } = props;
+  
   useEffect(() => {
     const checkSales = async (url) => {
       await fetch('http://localhost:8080/' + url, {mode:'cors'})
       .then(response => response.json())
       .then(data => {
         const date = new Date();
-        console.log(data);
+        //console.log(data);
+        console.log(data)
         if(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}` > data.date){
-          getSales("topSellers");
+          getSales("topSellersOnSale");
         }
         else {
           console.log("local");
           setTopSale(data.applist);
-          
        }
       })
       .catch(error => {
@@ -85,18 +86,23 @@ export default function HomeView(props) {
       >
         <Tab eventKey="gamesOnSale" title="Top Games On Sale">
           {topSale.map((game) => (
-            <GameCard
-            key = {game}
-            game = {game}/>
+            <Suspense fallback={<div>Loading...</div>}>
+              <GameCard
+              key = {game}
+              game = {game}/>
+            </Suspense>
           ))}
         </Tab>
-        <Tab eventKey="topSellers" title="Top Selling Games">
+        <Tab eventKey="topSellers" title="Top Sellers">
           {topFifty.map((game) => (
-            <GameCard
-            key = {game.appid}
-            game = {game.appid}/>
+            <Suspense fallback={<div>Loading...</div>}>
+              <GameCard
+              key = {game}
+              game = {game}/>
+            </Suspense>
           ))}
         </Tab>
+        
       </Tabs>
     </div>
   );

@@ -1,72 +1,139 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import FetchGameData from "../../fetchData";
-import { Card, Container, Image, Row, Col, Tab, Tabs } from "react-bootstrap";
+import { Container, Image, Row, Col, Tab, Tabs } from "react-bootstrap";
+import Review from "./Review";
+import "./GameCard.css";
 
 export default function GameCard(props) {
-  const [name, setName]               = useState("");
-  const [thumbnail, setThumb]         = useState("");
-  const [playerCount, setPlayerCount] = useState(0);
-  const [categories, setCategories]   = useState([]);
-  const [genres, setGenres]           = useState([]);
-  const [platforms, setPlatforms]     = useState([]);
-  const [price, setPrice]             = useState({});
-  const [publishers, setPublishers]   = useState([]);
-  const [age, setAge]                 = useState(0);
-  const [metacritic, setMetacritic]   = useState({});
-  const [about, setAbout]             = useState("");
-  const [reviews, setReviews]         = useState({});
+  //const [name, setName]               = useState("");
+  //const [thumbnail, setThumb]         = useState("");
+  //const [playerCount, setPlayerCount] = useState(0);
+  //const [categories, setCategories]   = useState([]);
+  //const [genres, setGenres]           = useState([]);
+  //const [platforms, setPlatforms]     = useState({});
+  //const [price, setPrice]             = useState({});
+  //const [publishers, setPublishers]   = useState([]);
+  //const [age, setAge]                 = useState(0);
+  //const [metacritic, setMetacritic]   = useState({});
+  //const [about, setAbout]             = useState("");
+  //const [reviews, setReviews]         = useState({});
+  //const [type, setType]               = useState(false);
 
-  const { game } = props;
+  const { type, 
+          name, 
+          about_the_game, 
+          categories,
+          genres,
+          platforms,
+          header_image,
+          price_overview,
+          publishers,
+          required_age,
+          metacritic,
+          review,
+          steam_appid} = props.game;
   
-  useEffect(() => {
-    async function getData(gameId) {
-      await FetchGameData({id:gameId})
-      .then((response) => {
-        setName(response.gameDetails.name);
-        setThumb(response.gameDetails.header_image);
-        setPlayerCount(response.players);
-        setCategories(response.gameDetails.categories);
-        setGenres(response.gameDetails.genres);
-        setPlatforms(response.gameDetails.platforms);
-        setPrice(response.price);
-        setAge(response.gameDetails.required_age);
-        setMetacritic(response.gameDetails.metacritic);
-        setAbout(response.gameDetails.about);
-        setReviews(response.reviews);
-      });
-    }
-
-    getData(game);
-  }, []);
+  //console.log(props);
 
   return (
     <div>
-      <Container>
+      <Container className="gameCard">
+      <h2 className="gameHeader">{name}</h2>
       <Row>
         <Col>
-          <p>{name}</p>
           <Tabs 
-            defaultActiveKey={"details"}
+            defaultActiveKey={"about"}
             id="card-tabs"
             className="mb-3"
           >
-            <Tab eventKey="details" title="Details">
-              <Image src={thumbnail} />
-              <p>{}</p>
+            <Tab eventKey="about" title="About" className="aboutContainer">
+              <Row>
+                <Col>
+                  <Image
+                    className="thumbnail"
+                    src={header_image} 
+                  />
+                </Col>
+                <Col>
+                  <h3>Current Price: {price_overview ? price_overview.final_formatted : "N/A"}</h3>
+                  {price_overview &&
+                  <div>
+                    <h3>Discount: {price_overview.discount_percent}%</h3>
+                    <h3>Was Previously: {price_overview.initial_formatted}</h3>
+                  </div>
+                  }
+                </Col>
+              </Row>
+              <hr></hr>
+              <h3>About:</h3>
+              <p>{about_the_game && 
+                  about_the_game.replaceAll('<br />', '<br>').split('<br>').map(str => <p>{str}</p>)
+                  }
+              </p>
             </Tab>
-            <Tab eventKey="reviews" title="Reviews">
-              
+            <Tab eventKey="reviews" title="Reviews" className="reviewContainer">
+              <Review
+                key = {"review" + steam_appid} 
+                review_desc = {review.query_summary ?
+                               review.query_summary.review_score_desc :
+                               "N/A"
+                              }
+                top_reviews = {review.reviews ?
+                               review.reviews :
+                               ["N/A"]
+                              }
+              />
+            </Tab>
+            <Tab eventKey="details" title="Details" className="detailsContainer">
+              <Row>
+                <Col>
+                  <h3>Age Rating: {required_age}</h3>
+                  <hr></hr>
+                  <h3>Publishers:</h3>
+                  <p>{publishers.join(", ")}</p>
+                  <hr></hr>
+                  {metacritic &&
+                  <div>
+                    <h3>Metacritic:</h3>
+                    <p>Score: {metacritic.score}</p>
+                    <a href={metacritic.url}>Metacritic Review Page</a>
+                    <hr></hr>
+                  </div>
+                  }
+                  <h3>Platforms:</h3>
+                  <ul>
+                    <li>Windows: {platforms.windows ? "Supported" : "Not Supported"}</li>
+                    <li>Mac: {platforms.mac ? "Supported" : "Not Supported"}</li>
+                    <li>Linux: {platforms.linux ? "Supported" : "Not Supported"}</li>
+                  </ul>
+                </Col>
+                <Col>
+                  <h3>Genres</h3>
+                  {genres && genres.map((genre) => (
+                    <p>{genre.description}</p>
+                  ))}
+                  <hr></hr>
+                  <h3>Tags</h3>
+                  {categories && categories.map((category) => (
+                    <p>{category.description}</p>
+                  ))}
+                </Col>
+              </Row>
             </Tab>
           </Tabs>
-          
         </Col>
         <Col>
-        <iframe
-          src={`https://steamdb.info/embed/?appid=${game}`} 
-          height={389}
-          width={600}
-          loading={'lazy'}
-          title={`Chart for ${730}showing concurrent players`}/>
+          {type ? 
+            <iframe
+            className="playerChart"
+            src={`https://steamdb.info/embed/?appid=${steam_appid}`} 
+            height={389}
+            width={600}
+            loading={'lazy'}
+            title={`Chart for ${730}showing concurrent players`}
+            />
+          : <p>No chart data for DLC</p>
+          }
         </Col>
       </Row>
       </Container>
