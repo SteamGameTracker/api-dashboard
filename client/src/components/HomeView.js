@@ -6,36 +6,72 @@ export default function HomeView(props) {
   const [topFifty, setTopFifty] = useState([]);
   const [topSale, setTopSale]   = useState([]);
   const { games } = props;
-  console.log('test')
   useEffect(() => {
+    const checkSales = async (url) => {
+      await fetch('http://localhost:8080/' + url, {mode:'cors'})
+      .then(response => response.json())
+      .then(data => {
+        const date = new Date();
+        console.log(data);
+        if(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}` > data.date){
+          getSales("topSellers");
+        }
+        else {
+          console.log("local");
+          setTopSale(data.applist);
+          
+       }
+      })
+      .catch(error => {
+        console.error('request failed', error);
+      });
+    }
+
     async function getSales(url) {
       await fetch('http://localhost:8080/' + url, {mode:'cors'})
         .then(response => response.json())
         .then(data => {
-          const regex = /(?<=https:\/\/store\.steampowered\.com\/app\/).[0-9]+/gm;
-          const array = data.match(regex);
-          setTopSale(array);
+          setTopSale(data);
         })
         .catch(error => {
           console.error('request failed', error);
         });
+    }
+
+    const checkTop = async (url) => {
+      await fetch('http://localhost:8080/' + url, {mode:'cors'})
+      .then(response => response.json())
+      .then(data => {
+        const date = new Date();
+        //console.log(data);
+        if(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}` > data.date){
+          getTop("topSellers");
+        }
+        else {
+          console.log("local");
+          setTopFifty(data.applist);
+          
+       }
+      })
+      .catch(error => {
+        console.error('request failed', error);
+      });
     }
 
     async function getTop(url) {
       await fetch('http://localhost:8080/' + url, {mode:'cors'})
         .then(response => response.json())
         .then(data => {
-          const regex = /(?<=https:\/\/store\.steampowered\.com\/app\/).[0-9]+/gm;
-          const array = data.match(regex);
-          setTopFifty(array);
+          //console.log(data);
+          setTopFifty(data);
         })
         .catch(error => {
           console.error('request failed', error);
         });
     }
-
-    getSales("topSellersOnSale");
-    getTop("topSellers")
+    checkTop("topSellersJson");
+    checkSales("topSellersOnSaleJson");
+    //getTop("topSellers")
   }, []);
 
 
@@ -57,8 +93,8 @@ export default function HomeView(props) {
         <Tab eventKey="topSellers" title="Top Selling Games">
           {topFifty.map((game) => (
             <GameCard
-            key = {game}
-            game = {game}/>
+            key = {game.appid}
+            game = {game.appid}/>
           ))}
         </Tab>
       </Tabs>
