@@ -3,9 +3,12 @@ const axios = require('axios');
 const fs = require("fs");
 const app = express();
 const path = "./gamelist.json";
+const path2 = "./top50sellers.json";
+const path3 = "./top50onsale.json";
 require('dotenv').config({  path: '../.env' });
 
 const port = 8080;
+const date = new Date();
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -17,7 +20,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/gamefile', (req, res) => {
-  const date = new Date();
+  
   const jsonString = fs.readFileSync(path);
   const testData = JSON.parse(jsonString)
   
@@ -27,7 +30,7 @@ app.get('/gamefile', (req, res) => {
 app.get('/gamelist/:id', (req, res) => {
   const gamesUrl = `https://api.steampowered.com/IStoreService/GetAppList/v1/?key=${process.env.REACT_APP_STEAM_API_KEY}&include_games=true&max_results=50000`;
   const gamesUrl2 = `https://api.steampowered.com/IStoreService/GetAppList/v1/?key=${process.env.REACT_APP_STEAM_API_KEY}&include_games=true&last_appid=${req.params['id']}&max_results=50000`;
-  const date = new Date();
+  //const date = new Date();
   
   if(req.params['id'] == -1){
     axios
@@ -129,16 +132,68 @@ app.get('/reviews/:id', (req, res) => {
   }); 
 })
 
+app.get('/topSellersJson', (req, res) => {
+  const jsonString = fs.readFileSync(path2);
+  const topData = JSON.parse(jsonString)
+  
+  res.json(topData);
+})
+
 app.get('/topSellers', (req, res) => {
   const gamesUrl = `https://store.steampowered.com/search/?filter=topsellers`;
   axios
   .get(gamesUrl)
   .then((response) => {
-    res.json(response.data);
+    const regex = /(?<=https:\/\/store\.steampowered\.com\/app\/).[0-9]+/gm;
+    const array = response.data.match(regex);
+    let objArray = [];
+    Promise.all(array.slice(0, 2).map(async (appid) => {
+      console.log('test', appid);
+      const callGameDetails = `https://store.steampowered.com/api/appdetails/?appids=${appid}`;
+      axios
+      .get(callGameDetails)
+      .then(response => {
+        //console.log(response.data[appid].data);
+        //objArray.push(JSON.parse(JSON.stringify(response.data[appid].data)));
+        //console.log(response.data[element].data);
+      })
+      .catch((error) => {
+        //console.error(error);
+      });
+    }))
+    .then((data) => {
+      console.log('test');
+      console.log(data);
+    })
+    //let objArray = [];
+    //const element = 730;
+    //array.forEach(element => {
+      
+      
+    //});
+      //console.log(objArray);
+    // fs.writeFile(path2, JSON.stringify({
+    //   "date": `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
+    //   "applist": objArray
+    // }, null, 2), (error) => {
+    //   if(error) {
+    //     console.log("An error has occured", error);
+    //     return;
+    //   }
+    //   console.log("Data written successfully to the file");
+    // })
+    // res.json(array);
   })
   .catch((error) => {
     //console.error(error);
   });
+})
+
+app.get('/topSellersOnSaleJson', (req, res) => {
+  const jsonString = fs.readFileSync(path3);
+  const topSalesData = JSON.parse(jsonString)
+  
+  res.json(topSalesData);
 })
 
 app.get('/topSellersOnSale', (req, res) => {
@@ -146,7 +201,10 @@ app.get('/topSellersOnSale', (req, res) => {
   axios
   .get(gamesUrl)
   .then((response) => {
-    res.json(response.data);
+    const regex = /(?<=https:\/\/store\.steampowered\.com\/app\/).[0-9]+/gm;
+    const array = response.data.match(regex);
+    
+    res.json(array);
   })
   .catch((error) => {
     //console.error(error);
