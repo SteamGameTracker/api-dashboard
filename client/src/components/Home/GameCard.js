@@ -5,49 +5,35 @@ import Review from "./Review";
 import "./GameCard.css";
 
 export default function GameCard(props) {
-  const [name, setName]               = useState("");
-  const [thumbnail, setThumb]         = useState("");
-  const [playerCount, setPlayerCount] = useState(0);
-  const [categories, setCategories]   = useState([]);
-  const [genres, setGenres]           = useState([]);
-  const [platforms, setPlatforms]     = useState({});
-  const [price, setPrice]             = useState({});
-  const [publishers, setPublishers]   = useState([]);
-  const [age, setAge]                 = useState(0);
-  const [metacritic, setMetacritic]   = useState({});
-  const [about, setAbout]             = useState("");
-  const [reviews, setReviews]         = useState({});
-  const [type, setType]               = useState(false);
+  //const [name, setName]               = useState("");
+  //const [thumbnail, setThumb]         = useState("");
+  //const [playerCount, setPlayerCount] = useState(0);
+  //const [categories, setCategories]   = useState([]);
+  //const [genres, setGenres]           = useState([]);
+  //const [platforms, setPlatforms]     = useState({});
+  //const [price, setPrice]             = useState({});
+  //const [publishers, setPublishers]   = useState([]);
+  //const [age, setAge]                 = useState(0);
+  //const [metacritic, setMetacritic]   = useState({});
+  //const [about, setAbout]             = useState("");
+  //const [reviews, setReviews]         = useState({});
+  //const [type, setType]               = useState(false);
 
-  const { game } = props;
+  const { type, 
+          name, 
+          about_the_game, 
+          categories,
+          genres,
+          platforms,
+          header_image,
+          price_overview,
+          publishers,
+          required_age,
+          metacritic,
+          review,
+          steam_appid} = props.game;
   
-  useEffect(() => {
-    async function getData(gameId) {
-      await FetchGameData({id:gameId})
-      .then((response) => {
-        console.log(response);
-        setName(response.gameDetails.name);
-        setThumb(response.gameDetails.header_image);
-        setPlayerCount(response.players);
-        setCategories(response.gameDetails.categories);
-        setGenres(response.gameDetails.genres);
-        setPlatforms(response.gameDetails.platforms);
-        setPublishers(response.gameDetails.publishers);
-        setPrice(response.price);
-        setAge(response.gameDetails.required_age);
-        setMetacritic(response.gameDetails.metacritic);
-        setAbout(response.gameDetails.about_the_game);
-        setReviews(response.reviews);
-        
-        if(response.gameDetails.type === "game")
-          setType(true);
-        else
-          setType(false);
-      });
-    }
-
-    getData(game);
-  }, []);
+  //console.log(props);
 
   return (
     <div>
@@ -65,29 +51,29 @@ export default function GameCard(props) {
                 <Col>
                   <Image
                     className="thumbnail"
-                    src={thumbnail} 
+                    src={header_image} 
                   />
                 </Col>
                 <Col>
-                  <h3>Current Price: {price ? price.final_formatted : "N/A"}</h3>
-                  {price &&
+                  <h3>Current Price: {price_overview ? price_overview.final_formatted : "N/A"}</h3>
+                  {price_overview &&
                   <div>
-                    <h4>Discount: {price.discount_percent}%</h4>
-                    <h4>Was Previously: {price.initial_formatted}</h4>
+                    <h3>Discount: {price_overview.discount_percent}%</h3>
+                    <h3>Was Previously: {price_overview.initial_formatted}</h3>
                   </div>
                   }
                 </Col>
               </Row>
               <hr></hr>
               <h3>About:</h3>
-              <p>{about && 
-                  about.replaceAll('<br />', '<br>').split('<br>').map(str => <p>{str}</p>)
+              <p>{about_the_game && 
+                  about_the_game.replaceAll('<br />', '<br>').split('<br>').map(str => <p>{str}</p>)
                   }
               </p>
             </Tab>
             <Tab eventKey="reviews" title="Reviews" className="reviewContainer">
-              <Review
-                key = {"review" + game} 
+              {/* <Review
+                key = {"review" + steam_appid} 
                 review_desc = {reviews.query_summary ?
                                reviews.query_summary.review_score_desc :
                                "N/A"
@@ -96,12 +82,12 @@ export default function GameCard(props) {
                                reviews.reviews :
                                ["N/A"]
                               }
-              />
+              /> */}
             </Tab>
             <Tab eventKey="details" title="Details" className="detailsContainer">
               <Row>
                 <Col>
-                  <h3>Age Rating: {age}</h3>
+                  <h3>Age Rating: {required_age}</h3>
                   <hr></hr>
                   <h3>Publishers:</h3>
                   <p>{publishers.join(", ")}</p>
@@ -140,7 +126,7 @@ export default function GameCard(props) {
           {type ? 
             <iframe
             className="playerChart"
-            src={`https://steamdb.info/embed/?appid=${game}`} 
+            src={`https://steamdb.info/embed/?appid=${steam_appid}`} 
             height={389}
             width={600}
             loading={'lazy'}

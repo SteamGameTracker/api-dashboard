@@ -139,7 +139,7 @@ app.get('/topSellersJson', (req, res) => {
 })
 
 app.get('/topSellers', (req, res) => {
-  const gamesUrl = `https://store.steampowered.com/search/?filter=topsellers`;
+  const gamesUrl = `https://store.steampowered.com/search/?filter=topsellers&supportedlang=english`;
   axios
   .get(gamesUrl)
   .then((response) => {
@@ -148,10 +148,22 @@ app.get('/topSellers', (req, res) => {
     let objArray = [];
     Promise.all(array.map(async (appid) => {
       const callGameDetails = `https://store.steampowered.com/api/appdetails/?appids=${appid}`;
+      const callGameReviews = await fetch(`http://localhost:8080/reviews/${appid}`,{mode:'cors'})
+        .then(response => response.json())
+        .then(data => {
+          return data;
+        })
+        .catch(error => {
+          console.error('request failed', error);
+        });
+
       await axios
       .get(callGameDetails)
       .then(response => {
-        objArray.push(JSON.parse(JSON.stringify(response.data[appid].data)));
+        let gameObj = JSON.parse(JSON.stringify(response.data[appid].data));
+        let gameReview = callGameReviews;
+        gameObj["review"] = gameReview;
+        objArray.push(gameObj);
         fs.writeFile(path2, JSON.stringify({
           "date": `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
           "applist": objArray
@@ -189,10 +201,22 @@ app.get('/topSellersOnSale', (req, res) => {
     let objArray = [];
     Promise.all(array.map(async (appid) => {
       const callGameDetails = `https://store.steampowered.com/api/appdetails/?appids=${appid}`;
+      const callGameReviews = await fetch(`http://localhost:8080/reviews/${appid}`,{mode:'cors'})
+        .then(response => response.json())
+        .then(data => {
+          return data;
+        })
+        .catch(error => {
+          console.error('request failed', error);
+        });
+
       await axios
       .get(callGameDetails)
       .then(response => {
-        objArray.push(JSON.parse(JSON.stringify(response.data[appid].data)));
+        let gameObj = JSON.parse(JSON.stringify(response.data[appid].data));
+        let gameReview = callGameReviews;
+        gameObj["review"] = gameReview;
+        objArray.push(gameObj);
         fs.writeFile(path3, JSON.stringify({
           "date": `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
           "applist": objArray

@@ -13,14 +13,14 @@ export default function HomeView(props) {
       .then(response => response.json())
       .then(data => {
         const date = new Date();
-        console.log(data);
+        //console.log(data);
+        console.log(data)
         if(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}` > data.date){
           getSales("topSellers");
         }
         else {
           console.log("local");
           setTopSale(data.applist);
-          
        }
       })
       .catch(error => {
