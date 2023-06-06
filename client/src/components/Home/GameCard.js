@@ -72,17 +72,17 @@ export default function GameCard(props) {
               </p>
             </Tab>
             <Tab eventKey="reviews" title="Reviews" className="reviewContainer">
-              {/* <Review
+              <Review
                 key = {"review" + steam_appid} 
-                review_desc = {reviews.query_summary ?
-                               reviews.query_summary.review_score_desc :
+                review_desc = {review.query_summary ?
+                               review.query_summary.review_score_desc :
                                "N/A"
                               }
-                top_reviews = {reviews.reviews ?
-                               reviews.reviews :
+                top_reviews = {review.reviews ?
+                               review.reviews :
                                ["N/A"]
                               }
-              /> */}
+              />
             </Tab>
             <Tab eventKey="details" title="Details" className="detailsContainer">
               <Row>

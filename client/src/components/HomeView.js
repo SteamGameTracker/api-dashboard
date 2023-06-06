@@ -16,7 +16,7 @@ export default function HomeView(props) {
         //console.log(data);
         console.log(data)
         if(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}` > data.date){
-          getSales("topSellers");
+          getSales("topSellersOnSale");
         }
         else {
           console.log("local");
