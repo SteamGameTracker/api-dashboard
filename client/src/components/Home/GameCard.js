@@ -115,14 +115,15 @@ export default function GameCard(props) {
               <Movies movies={movies} />
             </Tab>
           </Tabs>
+          <hr className="w-75 mx-auto"></hr>
         </Col>
-        <Col>
+        <Col className="text-center">
           {type === "game" ? 
             <iframe
             className="playerChart"
-            src={`https://steamdb.info/embed/?appid=${steam_appid}`} 
-            height={389}
-            width={600}
+            src={`https://steamdb.info/embed/?appid=${steam_appid}`}
+            height={400}
+            width={600} 
             loading={'lazy'}
             title={`Chart for ${730}showing concurrent players`}
             />
