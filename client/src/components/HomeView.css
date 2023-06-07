@@ -1,0 +1,8 @@
+.gameCardContainer {
+  overflow-y: scroll;
+  height: 85vh;
+}
+
+.gameCardContainer::-webkit-scrollbar {
+  display: none;
+}

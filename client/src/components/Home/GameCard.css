@@ -5,6 +5,7 @@
 
 .reviewContainer {
   height: 500px;
+  width: 650px;
   overflow-y: scroll;
   color:white;
   background-color: #1b2838;
@@ -20,7 +21,7 @@
 
 .aboutContainer {
   height: 500px;
-  width: 640px;
+  width: 650px;
   overflow-y: scroll;
   color:white;
   background-color: #1b2838;
@@ -29,6 +30,7 @@
 
 .detailsContainer {
   height: 500px;
+  width: 650px;
   overflow-y: scroll;
   color:white;
   background-color: #1b2838;
@@ -37,7 +39,8 @@
 
 .gameCard {
   margin-bottom: 50px;
-  padding: 1%;
+  border-radius: 5px 5px 5px 5px;
+  padding: 0%;
   background-color: #1b2838;
   color: white;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.50);
@@ -45,10 +48,19 @@
 
 .gameHeader {
   background-color: #161920;
+  border-radius: 5px 5px 0px 0px;
   padding: 2%;
 }
 
 .playerChart {
   margin-top: 50px;
   color: white !important;
+}
+
+.gameTabs .nav-link.active {
+  color: black;
+}
+
+.gameTabs .nav-link {
+  color: white;
 }

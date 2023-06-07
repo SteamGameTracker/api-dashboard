@@ -1,23 +1,8 @@
-import { useState, useEffect} from "react";
-import FetchGameData from "../../fetchData";
 import { Container, Image, Row, Col, Tab, Tabs } from "react-bootstrap";
 import Review from "./Review";
 import "./GameCard.css";
 
 export default function GameCard(props) {
-  //const [name, setName]               = useState("");
-  //const [thumbnail, setThumb]         = useState("");
-  //const [playerCount, setPlayerCount] = useState(0);
-  //const [categories, setCategories]   = useState([]);
-  //const [genres, setGenres]           = useState([]);
-  //const [platforms, setPlatforms]     = useState({});
-  //const [price, setPrice]             = useState({});
-  //const [publishers, setPublishers]   = useState([]);
-  //const [age, setAge]                 = useState(0);
-  //const [metacritic, setMetacritic]   = useState({});
-  //const [about, setAbout]             = useState("");
-  //const [reviews, setReviews]         = useState({});
-  //const [type, setType]               = useState(false);
 
   const { type, 
           name, 
@@ -44,7 +29,7 @@ export default function GameCard(props) {
           <Tabs 
             defaultActiveKey={"about"}
             id="card-tabs"
-            className="mb-3"
+            className="mb-3 mx-3 gameTabs"
           >
             <Tab eventKey="about" title="About" className="aboutContainer">
               <Row>
@@ -66,10 +51,7 @@ export default function GameCard(props) {
               </Row>
               <hr></hr>
               <h3>About:</h3>
-              <p>{about_the_game && 
-                  about_the_game.replaceAll('<br />', '<br>').split('<br>').map(str => <p>{str}</p>)
-                  }
-              </p>
+              <p dangerouslySetInnerHTML={{__html: about_the_game}} />
             </Tab>
             <Tab eventKey="reviews" title="Reviews" className="reviewContainer">
               <Review
@@ -123,7 +105,7 @@ export default function GameCard(props) {
           </Tabs>
         </Col>
         <Col>
-          {type ? 
+          {type === "game" ? 
             <iframe
             className="playerChart"
             src={`https://steamdb.info/embed/?appid=${steam_appid}`} 

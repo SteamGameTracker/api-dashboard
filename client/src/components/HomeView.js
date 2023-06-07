@@ -88,7 +88,7 @@ export default function HomeView(props) {
       >
         <Tab eventKey="gamesOnSale" title="Top Games On Sale">
           <Row>
-            <Col>
+            <Col className="gameCardContainer">
               {topSale.map((game) => (
                 <Suspense fallback={<div>Loading...</div>}>
                   <GameCard
@@ -106,21 +106,32 @@ export default function HomeView(props) {
                 <PieCard/>
                 </Col>
               </Row>
-                
             </Col>
           </Row>
         </Tab>
         <Tab eventKey="topSellers" title="Top Sellers">
-        <RadarCard/>
-          {topFifty.map((game) => (
-            <Suspense fallback={<div>Loading...</div>}>
-              <GameCard
-              key = {game}
-              game = {game}/>
-            </Suspense>
-          ))}
+        <Row>
+          <Col className="gameCardContainer">
+            {topFifty.map((game) => (
+              <Suspense fallback={<div>Loading...</div>}>
+                <GameCard
+                key = {game}
+                game = {game}/>
+              </Suspense>
+            ))}
+          </Col>
+          <Col className="col-3 ">
+              <Row className="">
+                <Col className="col-12">
+                <RadarCard/>
+                </Col>
+                <Col className="col-12">
+                <PieCard/>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
         </Tab>
-        
       </Tabs>
     </div>
   );
