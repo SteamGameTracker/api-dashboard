@@ -1,0 +1,7 @@
+.pie-chart-box {
+  display: flex;
+  align-items: center;
+  max-width: 80%;
+  background-color: transparent;
+  padding: 0px;
+}

@@ -1,5 +1,7 @@
 import React, { useState, useEffect, Suspense  } from "react";
-import { Tabs, Tab } from "react-bootstrap";
+import { Tabs, Tab, Row, Col, Container } from "react-bootstrap";
+import RadarCard from "./Charts/RadarCard";
+import PieCard from "./Charts/PieCard";
 const GameCard = React.lazy(() => import("./Home/GameCard"));
 
 export default function HomeView(props) {
@@ -85,15 +87,31 @@ export default function HomeView(props) {
         justify
       >
         <Tab eventKey="gamesOnSale" title="Top Games On Sale">
-          {topSale.map((game) => (
-            <Suspense fallback={<div>Loading...</div>}>
-              <GameCard
-              key = {game}
-              game = {game}/>
-            </Suspense>
-          ))}
+          <Row>
+            <Col>
+              {topSale.map((game) => (
+                <Suspense fallback={<div>Loading...</div>}>
+                  <GameCard
+                  key = {game}
+                  game = {game}/>
+                </Suspense>
+              ))}
+            </Col>
+            <Col className="col-3 ">
+              <Row className="">
+                <Col className="col-12">
+                <RadarCard/>
+                </Col>
+                <Col className="col-12">
+                <PieCard/>
+                </Col>
+              </Row>
+                
+            </Col>
+          </Row>
         </Tab>
         <Tab eventKey="topSellers" title="Top Sellers">
+        <RadarCard/>
           {topFifty.map((game) => (
             <Suspense fallback={<div>Loading...</div>}>
               <GameCard
