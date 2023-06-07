@@ -1,0 +1,37 @@
+.pie-card {
+  border-radius: 5px 5px 5px 5px;
+  
+  position: relative;
+  height: 320px;
+  width: 300px;
+  top: 20;
+  right: 10;
+  margin-bottom: 10px;
+  margin-right: 5px;
+  padding: 0.5%;
+  background-color: #1b2838;
+  color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.50);
+}
+
+.pie-header {
+  
+  border-radius: 5px 5px 0px 0px;
+  font-size: large;
+  text-align: center;
+  background-color: #161920;
+  padding: 2%;
+  margin: 0;
+}
+
+.pie-footer {
+  
+  text-align: center;
+}
+
+@media (max-width: 920px) {
+  .radar-card {
+    position: relative;
+  }
+  
+}
