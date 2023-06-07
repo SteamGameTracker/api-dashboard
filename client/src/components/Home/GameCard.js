@@ -1,6 +1,10 @@
 import { Container, Image, Row, Col, Tab, Tabs } from "react-bootstrap";
 import Review from "./Review";
+import Movies from "./Movies";
+import Screenshots from "./Screenshots";
+
 import "./GameCard.css";
+
 
 export default function GameCard(props) {
 
@@ -16,6 +20,8 @@ export default function GameCard(props) {
           required_age,
           metacritic,
           review,
+          screenshots,
+          movies,
           steam_appid} = props.game;
   
   //console.log(props);
@@ -101,6 +107,12 @@ export default function GameCard(props) {
                   ))}
                 </Col>
               </Row>
+            </Tab>
+            <Tab eventKey="screenshots" title="Screenshots" className="screenshotsContainer">
+              <Screenshots images={screenshots}/>
+            </Tab>
+            <Tab eventKey="movies" title="Movies" className="moviesContainer">
+              <Movies movies={movies} />
             </Tab>
           </Tabs>
         </Col>

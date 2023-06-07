@@ -2,6 +2,9 @@ import React, { useState, useEffect, Suspense  } from "react";
 import { Tabs, Tab, Row, Col, Container } from "react-bootstrap";
 import RadarCard from "./Charts/RadarCard";
 import PieCard from "./Charts/PieCard";
+
+import "./HomeView.css"
+
 const GameCard = React.lazy(() => import("./Home/GameCard"));
 
 export default function HomeView(props) {
@@ -79,11 +82,11 @@ export default function HomeView(props) {
 
 
   return (
-    <div>
+    <div className="homeBody">
       <Tabs
         defaultActiveKey={"gamesOnSale"}
         id="top-sellers"
-        className="mb-3"
+        className="mb-3 mx-5 fs-4 homeTabs"
         justify
       >
         <Tab eventKey="gamesOnSale" title="Top Games On Sale">

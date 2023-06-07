@@ -57,9 +57,9 @@ function App() {
   }, []);
 
   return (
-    <>
+    <div className="background">
       <Navigationbar games={steamData}/>
-    </>
+    </div>
   )
 }
 
