@@ -1,16 +1,36 @@
-.game-list {
-  display: flex;
-  width: 20%;
-  
+.search-page {
+  background-image: url("https://pyxis.nymag.com/v1/imgs/e08/e07/1565a95fb25c7744777b506ce76cc3f0e6-21-gaben.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
 }
 
-.game-item {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+.gameCardContainer {
+  overflow-y: scroll;
+  height: 85vh;
+}
+
+.gameCardContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.search-header {
+  color: white;
+  background-color: rgb(0, 0, 0);
+  opacity: 0.75;
+  padding: 2%;
+  width: fit-content;
+  margin: 10% auto auto auto;
+  border-radius: 5pt 5pt 5pt 5pt;
 }
 
 .search-row {
   height: 60px;
   margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card {
+  width: 100%;
 }
