@@ -103,10 +103,10 @@ export default function HomeView(props) {
             <Col className="col-3 ">
               <Row className="">
                 <Col className="col-12">
-                <RadarCard/>
+                <RadarCard data={topSale}/>
                 </Col>
                 <Col className="col-12">
-                <PieCard/>
+                <PieCard data={topSale}/>
                 </Col>
               </Row>
             </Col>
@@ -126,10 +126,10 @@ export default function HomeView(props) {
           <Col className="col-3 ">
               <Row className="">
                 <Col className="col-12">
-                <RadarCard/>
+                <RadarCard data={topFifty}/>
                 </Col>
                 <Col className="col-12">
-                <PieCard/>
+                <PieCard data={topFifty}/>
                 </Col>
               </Row>
             </Col>

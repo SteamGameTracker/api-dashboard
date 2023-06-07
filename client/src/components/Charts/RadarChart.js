@@ -9,9 +9,9 @@ ChartJS.defaults.color = 'white';
 const RadarChart = (props) => {
   const { groupName } = props.data;
   const { list } = props.data;
-  console.log(list);
-  const chartLabels = list.map((tag) => tag.name.split(' '));
-  const chartDataPoints = list.map((tag) => tag.count);
+  //console.log(list);
+  const chartLabels = list.slice(0,10).map((tag) => tag.name.split(' '));
+  const chartDataPoints = list.slice(0,10).map((tag) => tag.count);
   const chartData = {
     labels: chartLabels,
     datasets: [{
