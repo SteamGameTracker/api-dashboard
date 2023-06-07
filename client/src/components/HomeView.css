@@ -1,0 +1,35 @@
+.homeBody {
+  background-image: url("https://pyxis.nymag.com/v1/imgs/e08/e07/1565a95fb25c7744777b506ce76cc3f0e6-21-gaben.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.gameCardContainer {
+  overflow-y: scroll;
+  height: 85vh;
+}
+
+.gameCardContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.homeTabs {
+  padding-top: 1%;
+  padding-bottom: 0.25%;
+}
+
+.homeTabs li {
+  margin-left: 50px;
+  margin-right: 50px;
+}
+
+.homeTabs .nav-link {
+  color: white;
+  background-color: #1b2838;
+}
+
+.homeTabs .nav-link.active {
+  color: white;
+  background-color: #161920;
+  border: 0;
+}

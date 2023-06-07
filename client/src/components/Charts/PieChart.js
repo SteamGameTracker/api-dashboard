@@ -20,7 +20,7 @@ const borderColors = [
 const PieChart = (props) => {
   const { groupName } = props.data;
   const { list } = props.data;
-  console.log(list);
+  //console.log(list);
   const chartLabels = list.map((tag) => tag.name.split(' '));
   const chartDataPoints = list.map((tag) => tag.count);
   const chartData = {

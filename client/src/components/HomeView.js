@@ -2,6 +2,9 @@ import React, { useState, useEffect, Suspense  } from "react";
 import { Tabs, Tab, Row, Col, Container } from "react-bootstrap";
 import RadarCard from "./Charts/RadarCard";
 import PieCard from "./Charts/PieCard";
+
+import "./HomeView.css"
+
 const GameCard = React.lazy(() => import("./Home/GameCard"));
 
 export default function HomeView(props) {
@@ -79,16 +82,16 @@ export default function HomeView(props) {
 
 
   return (
-    <div>
+    <div className="homeBody">
       <Tabs
         defaultActiveKey={"gamesOnSale"}
         id="top-sellers"
-        className="mb-3"
+        className="mb-3 mx-5 fs-4 homeTabs"
         justify
       >
         <Tab eventKey="gamesOnSale" title="Top Games On Sale">
           <Row>
-            <Col>
+            <Col className="gameCardContainer">
               {topSale.map((game) => (
                 <Suspense fallback={<div>Loading...</div>}>
                   <GameCard
@@ -100,27 +103,38 @@ export default function HomeView(props) {
             <Col className="col-3 ">
               <Row className="">
                 <Col className="col-12">
-                <RadarCard/>
+                <RadarCard data={topSale}/>
                 </Col>
                 <Col className="col-12">
-                <PieCard/>
+                <PieCard data={topSale}/>
                 </Col>
               </Row>
-                
             </Col>
           </Row>
         </Tab>
         <Tab eventKey="topSellers" title="Top Sellers">
-        <RadarCard/>
-          {topFifty.map((game) => (
-            <Suspense fallback={<div>Loading...</div>}>
-              <GameCard
-              key = {game}
-              game = {game}/>
-            </Suspense>
-          ))}
+        <Row>
+          <Col className="gameCardContainer">
+            {topFifty.map((game) => (
+              <Suspense fallback={<div>Loading...</div>}>
+                <GameCard
+                key = {game}
+                game = {game}/>
+              </Suspense>
+            ))}
+          </Col>
+          <Col className="col-3 ">
+              <Row className="">
+                <Col className="col-12">
+                <RadarCard data={topFifty}/>
+                </Col>
+                <Col className="col-12">
+                <PieCard data={topFifty}/>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
         </Tab>
-        
       </Tabs>
     </div>
   );
