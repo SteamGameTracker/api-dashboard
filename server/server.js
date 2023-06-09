@@ -2,6 +2,7 @@ const express = require('express');
 const axios = require('axios');
 const fs = require("fs");
 const app = express();
+const reactPath = require("path");
 const path = "./gamelist.json";
 const path2 = "./top50sellers.json";
 const path3 = "./top50onsale.json";
@@ -15,8 +16,12 @@ app.use((req, res, next) => {
   next();
 })
 
+app.use(
+  express.static(reactPath.join(__dirname, "../client/build"))
+)
+
 app.get('/', (req, res) => {
-  res.send('Welcome to the Steam Dashboard');
+  res.sendFile(reactPath.join(__dirname, "../client/build/index.html"));
 })
 
 app.get('/gamefile', (req, res) => {
