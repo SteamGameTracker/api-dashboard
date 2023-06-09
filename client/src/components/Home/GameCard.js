@@ -25,6 +25,13 @@ export default function GameCard(props) {
           steam_appid} = props.game;
   
   //console.log(props);
+  const aboutAltText = (text) => {
+    const searchInput = '<img';
+    let newText = text
+    newText = 
+    text.replaceAll(searchInput, `<img alt="media for ${name}"`);
+    return newText;
+  }
 
   return (
     <div>
@@ -42,7 +49,8 @@ export default function GameCard(props) {
                 <Col>
                   <Image
                     className="thumbnail"
-                    src={header_image} 
+                    src={header_image}
+                    alt={"Cover art of" + name}
                   />
                 </Col>
                 <Col>
@@ -57,7 +65,7 @@ export default function GameCard(props) {
               </Row>
               <hr></hr>
               <h3>About:</h3>
-              <p dangerouslySetInnerHTML={{__html: about_the_game}} />
+              <p dangerouslySetInnerHTML={{__html: aboutAltText(about_the_game)}} />
             </Tab>
             <Tab eventKey="reviews" title="Reviews" className="reviewContainer">
               <Review
