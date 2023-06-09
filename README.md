@@ -38,4 +38,4 @@ In a different terminal, navigate to the client folder and run the following com
 - https://react-bootstrap.netlify.app/
 - https://www.w3schools.com/js/default.asp
 - https://expressjs.com/
-- 
+- https://levelup.gitconnected.com/how-to-simultaneously-run-the-client-and-server-of-your-full-stack-app-in-one-folder-ef5a988d56d7
