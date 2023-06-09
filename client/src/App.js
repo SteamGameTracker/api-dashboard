@@ -10,7 +10,7 @@ function App() {
   //pulls steam app list from server json file, and checks that it's up to date
   //if not up to date, it will call api to update the json file
   const checkDataStatus = async () => {
-    await fetch(`http://localhost:8080/gamefile`, {mode:'cors'})
+    await fetch(`http://localhost:${process.env.PORT}/gamefile`, {mode:'cors'})
     .then(response => {
       return response.json();
     })
@@ -32,7 +32,7 @@ function App() {
     });
   }
   const callGameList = async (gameId) => {
-    await fetch(`http://localhost:8080/gamelist/${gameId}`, {mode:'cors'})
+    await fetch(`http://localhost:${process.env.PORT}/gamelist/${gameId}`, {mode:'cors'})
     .then(response => {
       console.log('Success', response);
       return response.json();

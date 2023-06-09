@@ -153,7 +153,7 @@ app.get('/topSellers', (req, res) => {
     let objArray = [];
     Promise.all(array.map(async (appid) => {
       const callGameDetails = `https://store.steampowered.com/api/appdetails/?appids=${appid}`;
-      const callGameReviews = await fetch(`http://localhost:8080/reviews/${appid}`,{mode:'cors'})
+      const callGameReviews = await fetch(`http://localhost:${process.env.PORT}/reviews/${appid}`,{mode:'cors'})
         .then(response => response.json())
         .then(data => {
           return data;
@@ -206,7 +206,7 @@ app.get('/topSellersOnSale', (req, res) => {
     let objArray = [];
     Promise.all(array.map(async (appid) => {
       const callGameDetails = `https://store.steampowered.com/api/appdetails/?appids=${appid}`;
-      const callGameReviews = await fetch(`http://localhost:8080/reviews/${appid}`,{mode:'cors'})
+      const callGameReviews = await fetch(`http://localhost:${process.env.PORT}/reviews/${appid}`,{mode:'cors'})
         .then(response => response.json())
         .then(data => {
           return data;

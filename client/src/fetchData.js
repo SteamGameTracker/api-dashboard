@@ -3,7 +3,7 @@ async function FetchGameData(props) {
   const gameId = props.id;
 
   //general information about the game, such as an about, dlc appid's, release date, supported platforms etc.
-  const callGameDetails = await fetch(`http://localhost:8080/gameDetails/${gameId}`,{mode:'cors'})
+  const callGameDetails = await fetch(`http://localhost:${process.env.PORT}/gameDetails/${gameId}`,{mode:'cors'})
     .then(response => response.json())
     .then(data => {
       //console.log('Game Details:', data[gameId].data);
@@ -14,7 +14,7 @@ async function FetchGameData(props) {
     });
 
   //api call for game pricing information based on appid of game
-  const callGamePrice = await fetch(`http://localhost:8080/gamePrice/${gameId}`,{mode:'cors'})
+  const callGamePrice = await fetch(`http://localhost:${process.env.PORT}/gamePrice/${gameId}`,{mode:'cors'})
     .then(response => response.json())
     .then(data => {
       //console.log('Cost:', data[gameId].data.price_overview);
@@ -25,7 +25,7 @@ async function FetchGameData(props) {
     });
 
   //api call for game player count based on appid of game
-  const callPlayerCount = await fetch(`http://localhost:8080/playerCount/${gameId}`,{mode:'cors'})
+  const callPlayerCount = await fetch(`http://localhost:${process.env.PORT}/playerCount/${gameId}`,{mode:'cors'})
     .then(response => response.json())
     .then(data => {
       //console.log('Current Player Count:', data.response.player_count);
@@ -36,7 +36,7 @@ async function FetchGameData(props) {
     });
 
   //api call for game review information based on appid of game
-  const callGameReviews = await fetch(`http://localhost:8080/reviews/${gameId}`,{mode:'cors'})
+  const callGameReviews = await fetch(`http://localhost:${process.env.PORT}/reviews/${gameId}`,{mode:'cors'})
     .then(response => response.json())
     .then(data => {
       //console.log('Game Reviews:', data);
