@@ -14,7 +14,7 @@ export default function HomeView(props) {
   
   useEffect(() => {
     const checkSales = async (url) => {
-      await fetch(`http://localhost:${process.env.PORT}/` + url, {mode:'cors'})
+      await fetch(`http://localhost:${process.env.REACT_APP_PORT}/` + url, {mode:'cors'})
       .then(response => response.json())
       .then(data => {
         const date = new Date();
@@ -34,7 +34,7 @@ export default function HomeView(props) {
     }
 
     async function getSales(url) {
-      await fetch(`http://localhost:${process.env.PORT}/` + url, {mode:'cors'})
+      await fetch(`http://localhost:${process.env.REACT_APP_PORT}/` + url, {mode:'cors'})
         .then(response => response.json())
         .then(data => {
           setTopSale(data);
@@ -45,7 +45,7 @@ export default function HomeView(props) {
     }
 
     const checkTop = async (url) => {
-      await fetch(`http://localhost:${process.env.PORT}/` + url, {mode:'cors'})
+      await fetch(`http://localhost:${process.env.REACT_APP_PORT}/` + url, {mode:'cors'})
       .then(response => response.json())
       .then(data => {
         const date = new Date();
@@ -65,7 +65,7 @@ export default function HomeView(props) {
     }
 
     async function getTop(url) {
-      await fetch(`http://localhost:${process.env.PORT}/` + url, {mode:'cors'})
+      await fetch(`http://localhost:${process.env.REACT_APP_PORT}/` + url, {mode:'cors'})
         .then(response => response.json())
         .then(data => {
           //console.log(data);
