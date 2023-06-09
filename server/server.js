@@ -8,7 +8,7 @@ const path2 = "./top50sellers.json";
 const path3 = "./top50onsale.json";
 require('dotenv').config({  path: '../.env' });
 
-const port = 8080;
+const port = PORT;
 const date = new Date();
 
 app.use((req, res, next) => {
