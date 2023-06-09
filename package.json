@@ -4,7 +4,7 @@
     "dotenv": "^16.1.3"
   },
   "scripts": {
-    "server": "npm start --prefix server",
+    "server": "npm run --prefix server start",
     "client": "npm start --prefix client",
     "build": "npm run --prefix client build",
     "dev": "concurrently \"npm run server\" \"npm run client\""

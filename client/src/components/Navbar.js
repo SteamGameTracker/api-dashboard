@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import SearchBar from "./SearchBar";
 import HomeView from "./HomeView";
@@ -20,7 +20,7 @@ const Navigationbar = (props) => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <HashRouter>
+      <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomeView games={games}/>} />
           <Route index element={<HomeView games={games}/>} />
@@ -29,7 +29,7 @@ const Navigationbar = (props) => {
             element={<SearchBar games={games} />}
           />
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </>
   )
 }

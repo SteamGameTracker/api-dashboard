@@ -1,9 +1,14 @@
+const { REACT_APP_PORT, REACT_APP_URL, NODE_ENV } = process.env;
+
+const API_URL =
+  NODE_ENV === 'production' ? window.HOST_URL + window.PORT : 'http://localhost:8080';
+
 async function FetchGameData(props) {
   const data = {};
   const gameId = props.id;
 
   //general information about the game, such as an about, dlc appid's, release date, supported platforms etc.
-  const callGameDetails = await fetch(`http://localhost:${process.env.REACT_APP_PORT}/gameDetails/${gameId}`,{mode:'cors'})
+  const callGameDetails = await fetch(`${API_URL}/gameDetails/${gameId}`,{mode:'cors'})
     .then(response => response.json())
     .then(data => {
       //console.log('Game Details:', data[gameId].data);
@@ -14,7 +19,7 @@ async function FetchGameData(props) {
     });
 
   //api call for game pricing information based on appid of game
-  const callGamePrice = await fetch(`http://localhost:${process.env.REACT_APP_PORT}/gamePrice/${gameId}`,{mode:'cors'})
+  const callGamePrice = await fetch(`${API_URL}/gamePrice/${gameId}`,{mode:'cors'})
     .then(response => response.json())
     .then(data => {
       //console.log('Cost:', data[gameId].data.price_overview);
@@ -25,7 +30,7 @@ async function FetchGameData(props) {
     });
 
   //api call for game player count based on appid of game
-  const callPlayerCount = await fetch(`http://localhost:${process.env.REACT_APP_PORT}/playerCount/${gameId}`,{mode:'cors'})
+  const callPlayerCount = await fetch(`${API_URL}/playerCount/${gameId}`,{mode:'cors'})
     .then(response => response.json())
     .then(data => {
       //console.log('Current Player Count:', data.response.player_count);
@@ -36,7 +41,7 @@ async function FetchGameData(props) {
     });
 
   //api call for game review information based on appid of game
-  const callGameReviews = await fetch(`http://localhost:${process.env.REACT_APP_PORT}/reviews/${gameId}`,{mode:'cors'})
+  const callGameReviews = await fetch(`${API_URL}/reviews/${gameId}`,{mode:'cors'})
     .then(response => response.json())
     .then(data => {
       //console.log('Game Reviews:', data);

@@ -3,26 +3,29 @@ import { Container, Row, Col} from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import Navigationbar from "./components/Navbar";
+const { REACT_APP_PORT, NODE_ENV } = process.env;
 
+const API_URL =
+  NODE_ENV === 'production' ? window.HOST_URL + window.PORT : 'http://localhost:8080';
+  
 function App() {
   const [steamData, setSteamData] = useState([]); //list of all games on steam
   
   //pulls steam app list from server json file, and checks that it's up to date
   //if not up to date, it will call api to update the json file
   const checkDataStatus = async () => {
-    await fetch(`http://localhost:${process.env.REACT_APP_PORT}/gamefile`, {mode:'cors'})
+    await fetch(`${API_URL}/gamefile`, {mode:'cors'})
     .then(response => {
       return response.json();
     })
     .then(data => {
       const date = new Date();
-      console.log(data.date);
+      //console.log(data.date);
       if(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}` > data.date){
         console.log("api");
         callGameList(-1);
       }
       else {
-        console.log("local");
         setSteamData(data.applist);
         
       }
@@ -32,7 +35,7 @@ function App() {
     });
   }
   const callGameList = async (gameId) => {
-    await fetch(`http://localhost:${process.env.REACT_APP_PORT}/gamelist/${gameId}`, {mode:'cors'})
+    await fetch(`${API_URL}/gamelist/${gameId}`, {mode:'cors'})
     .then(response => {
       console.log('Success', response);
       return response.json();

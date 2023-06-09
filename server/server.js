@@ -7,10 +7,13 @@ const path = "./gamelist.json";
 const path2 = "./top50sellers.json";
 const path3 = "./top50onsale.json";
 require('dotenv').config({  path: '../.env' });
-
-const port = process.env.REACT_APP_PORT;
+const { REACT_APP_PORT, REACT_APP_URL, NODE_ENV } = process.env;
+const port =
+  NODE_ENV === 'production' ? window.PORT :  REACT_APP_PORT;
+const url = 
+  NODE_ENV === 'production' ? window.HOST_URL + window.PORT : REACT_APP_URL + REACT_APP_PORT;
 const date = new Date();
-
+console.log(url);
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
   next();
@@ -25,7 +28,6 @@ app.get('/', (req, res) => {
 })
 
 app.get('/gamefile', (req, res) => {
-  
   const jsonString = fs.readFileSync(path);
   const testData = JSON.parse(jsonString)
   
@@ -36,7 +38,6 @@ app.get('/gamelist/:id', (req, res) => {
   const gamesUrl = `https://api.steampowered.com/IStoreService/GetAppList/v1/?key=${process.env.REACT_APP_STEAM_API_KEY}&include_games=true&max_results=50000`;
   const gamesUrl2 = `https://api.steampowered.com/IStoreService/GetAppList/v1/?key=${process.env.REACT_APP_STEAM_API_KEY}&include_games=true&last_appid=${req.params['id']}&max_results=50000`;
   //const date = new Date();
-  
   if(req.params['id'] == -1){
     axios
     .get(gamesUrl)
@@ -151,9 +152,9 @@ app.get('/topSellers', (req, res) => {
     const regex = /(?<=https:\/\/store\.steampowered\.com\/app\/).[0-9]+/gm;
     const array = response.data.match(regex);
     let objArray = [];
-    Promise.all(array.map(async (appid) => {
+    Promise.all(array.slice(0,1).map(async (appid) => {
       const callGameDetails = `https://store.steampowered.com/api/appdetails/?appids=${appid}`;
-      const callGameReviews = await fetch(`http://localhost:${process.env.PORT}/reviews/${appid}`,{mode:'cors'})
+      const callGameReviews = await fetch(`${url}/reviews/${appid}`,{mode:'cors'})
         .then(response => response.json())
         .then(data => {
           return data;
@@ -184,6 +185,7 @@ app.get('/topSellers', (req, res) => {
         console.error(error);
       });
     }))
+    console.log("Data Finished");
   })
   .catch((error) => {
     console.error(error);
@@ -204,9 +206,9 @@ app.get('/topSellersOnSale', (req, res) => {
     const regex = /(?<=https:\/\/store\.steampowered\.com\/app\/).[0-9]+/gm;
     const array = response.data.match(regex);
     let objArray = [];
-    Promise.all(array.map(async (appid) => {
+    Promise.all(array.slice(0,1).map(async (appid) => {
       const callGameDetails = `https://store.steampowered.com/api/appdetails/?appids=${appid}`;
-      const callGameReviews = await fetch(`http://localhost:${process.env.PORT}/reviews/${appid}`,{mode:'cors'})
+      const callGameReviews = await fetch(`${url}/reviews/${appid}`,{mode:'cors'})
         .then(response => response.json())
         .then(data => {
           return data;
@@ -237,12 +239,13 @@ app.get('/topSellersOnSale', (req, res) => {
         console.error(error);
       });
     }))
+    console.log("Data Finished");
   })
   .catch((error) => {
     console.error(error);
   });
 })
 
-app.listen(port, "0.0.0.0", () => {
+app.listen(port, () => {
   console.log(`listening on port ${port}`);
 })

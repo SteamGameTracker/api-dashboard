@@ -2,11 +2,12 @@ import React, { useState, useEffect, Suspense  } from "react";
 import { Tabs, Tab, Row, Col, Container } from "react-bootstrap";
 import RadarCard from "./Charts/RadarCard";
 import PieCard from "./Charts/PieCard";
-
 import "./HomeView.css"
+const { REACT_APP_PORT, REACT_APP_URL, NODE_ENV } = process.env;
 
+const API_URL =
+  NODE_ENV === 'production' ? window.HOST_URL + window.PORT : 'http://localhost:8080';
 const GameCard = React.lazy(() => import("./Home/GameCard"));
-
 export default function HomeView(props) {
   const [topFifty, setTopFifty] = useState([]);
   const [topSale, setTopSale]   = useState([]);
@@ -14,12 +15,11 @@ export default function HomeView(props) {
   
   useEffect(() => {
     const checkSales = async (url) => {
-      await fetch(`http://localhost:${process.env.REACT_APP_PORT}/` + url, {mode:'cors'})
+      await fetch(`${API_URL}/` + url, {mode:'cors'})
       .then(response => response.json())
       .then(data => {
         const date = new Date();
-        //console.log(data);
-        console.log(data)
+       
         if(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}` > data.date){
           getSales("topSellersOnSale");
         }
@@ -34,7 +34,8 @@ export default function HomeView(props) {
     }
 
     async function getSales(url) {
-      await fetch(`http://localhost:${process.env.REACT_APP_PORT}/` + url, {mode:'cors'})
+      
+      await fetch(`${API_URL}/` + url, {mode:'cors'})
         .then(response => response.json())
         .then(data => {
           setTopSale(data);
@@ -45,11 +46,11 @@ export default function HomeView(props) {
     }
 
     const checkTop = async (url) => {
-      await fetch(`http://localhost:${process.env.REACT_APP_PORT}/` + url, {mode:'cors'})
+      await fetch(`${API_URL}/` + url, {mode:'cors'})
       .then(response => response.json())
       .then(data => {
         const date = new Date();
-        //console.log(data);
+
         if(`${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}` > data.date){
           getTop("topSellers");
         }
@@ -65,10 +66,10 @@ export default function HomeView(props) {
     }
 
     async function getTop(url) {
-      await fetch(`http://localhost:${process.env.REACT_APP_PORT}/` + url, {mode:'cors'})
+      await fetch(`${API_URL}/` + url, {mode:'cors'})
         .then(response => response.json())
         .then(data => {
-          //console.log(data);
+          console.log(data);
           setTopFifty(data);
         })
         .catch(error => {
