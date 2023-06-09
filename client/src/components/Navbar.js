@@ -14,8 +14,8 @@ const Navigationbar = (props) => {
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse>
             <Nav className="me-auto">
-              <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="/search">Search</Nav.Link>
+              <Nav.Link to="/">Home</Nav.Link>
+              <Nav.Link to="/search">Search</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Container>
